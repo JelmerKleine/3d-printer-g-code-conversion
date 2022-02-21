@@ -1,9 +1,8 @@
 with open('g-code.txt') as f:
+    new_line = ""
     for line in f:
-        new_line=""
         for i in line:
-            if i =='e':
-                break
-            new_line=i+new_line
-    print(line)
-    print(new_line)
+            #if i =='e':
+            new_line = new_line + i
+        #print(line)
+        print(new_line)
