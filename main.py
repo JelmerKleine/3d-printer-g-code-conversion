@@ -2,10 +2,19 @@ new_file = open("test.txt","w")
 with open('g-code.txt') as f:
     new_line = ""
     for line in f:
-        #filtered = line.replace("E","T")
-        stripped = line.split('E', 1)[0]
-        doubleStripped = stripped.split(';', 1)[0]
+        stripped = line.split('S', 1)[0]
+        filtered = stripped.replace("E","S=")
+        filtered2 = filtered.split('G92 ', 1)[0]
+        filtered3 = filtered2.split('G28 ', 1)[0]
+        filtered4 = filtered3.split('M84', 1)[0]
+        filtered5 = filtered4.split('S= ', 1)[0]
+        doubleStripped = filtered5.split(';', 1)[0]
+        lhs = doubleStripped.split('=')
         print(doubleStripped)
+        if(len(lhs) == 2):
+            print("S"+lhs[1])
+
+        #print(rhs)
         print("hi")
         new_file.write(doubleStripped+ "\n")
         #print(new_lind)
