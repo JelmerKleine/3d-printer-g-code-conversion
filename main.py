@@ -23,6 +23,7 @@ with open('g-code.txt') as f:
                 newLine = newLine + "=" + str(float(lhs2[0])*100000)
         else:
             newLine = lhs[0]
+
         print(newLine)
         #print(rhs)
         #print("hi")
