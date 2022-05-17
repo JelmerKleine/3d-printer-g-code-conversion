@@ -1,19 +1,31 @@
 import math
 
-new_file = open("test_3.nc","w")
+new_file = open("test_3_segment_1.nc","w")
+new_file_2 = open("test_3_segment_2.nc","w")
 with open('g-code.txt') as f:
     new_line = ""
+    segment = 0
     for line in f:
         stripped = line.split('S', 1)[0]
         stripped2 = stripped.replace("E","Q1=")
-        stripped3 = stripped2.replace("G92","M01")
-        filtered = stripped3.split('G28', 1)[0]
+        filtered = stripped2.split('G28', 1)[0]
         filtered2 = filtered.split('M84', 1)[0]
         filtered3 = filtered2.split('S= ', 1)[0]
-        doubleStripped = filtered3.split(';', 1)[0]
+        filtered4 = filtered3.split('M140', 1)[0]
+        filtered5 = filtered4.split('M105', 1)[0]
+        filtered6 = filtered5.split('M190', 1)[0]
+        filtered7 = filtered6.split('M104', 1)[0]
+        filtered8 = filtered7.split('M109', 1)[0]
+        filtered9 = filtered8.split('M107', 1)[0]
+        filtered10 = filtered9.split('M82', 1)[0]
+        filtered11 = filtered10.split('G90', 1)[0]
+        filtered12 = filtered11.split('G91', 1)[0]
+        filtered13 = filtered12.split('M106', 1)[0]
+        doubleStripped = filtered13.split(';', 1)[0]
         lhs = doubleStripped.split('=')
         #print(doubleStripped)
         #print(lhs[0])
+
         if(len(lhs) == 2):
             #print("="+lhs[1])
             lhs2 = lhs[1].split('F')
@@ -26,8 +38,19 @@ with open('g-code.txt') as f:
         else:
             newLine = lhs[0]
 
+        if (newLine.find("M") != -1):
+            segment = segment + 1
+            print("test")
+
+
+        new_file.write(newLine + "\n")
         print(newLine)
         #print(rhs)
         #print("hi")
-        new_file.write(newLine  + "\n")
+        #if segment == 1 :
+            #new_file.write(newLine  + "\n")
+       # if segment == 2:
+            #new_file_2.write(newLine + "\n")
+       # else:
+            #print(newLine)
         #print(new_lind)
