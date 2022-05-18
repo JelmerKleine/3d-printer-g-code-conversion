@@ -32,9 +32,9 @@ with open('g-code.txt') as f:
             newLine = lhs[0]
             if(len(lhs2) == 2):
                 #print("F" + lhs2[1])
-                newLine = newLine + "=" + str(float(lhs2[0])/((math.pi*math.pow(1.75,2))/4)) + " F" + lhs2[1] #*100000
+                newLine = newLine + "=" + str(float(lhs2[0]) + " F" + lhs2[1] #/((math.pi*math.pow(1.75,2))/4)
             else:
-                newLine = newLine + "=" + str(float(lhs2[0])/((math.pi*math.pow(1.75,2))/4))
+                newLine = newLine + "=" + str(float(lhs2[0]) #/((math.pi*math.pow(1.75,2))/4)
         else:
             newLine = lhs[0]
 
@@ -43,7 +43,7 @@ with open('g-code.txt') as f:
             print("test")
 
 
-        new_file.write(newLine + "\n")
+        new_file_2.write(newLine + "\n")
         print(newLine)
         #print(rhs)
         #print("hi")
