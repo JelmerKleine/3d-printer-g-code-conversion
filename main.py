@@ -1,9 +1,10 @@
 import math
 
-new_file = open("calubrationCube.nc", "w")
+new_file = open("calibrationCube2.nc", "w")
 with open('CE6_xyzCalibration_cube.gcode') as f:
     new_line = ""
     segment = 0
+
     for line in f:
         stripped = line.split('S', 1)[0]
         stripped2 = stripped.replace("E","H=")
@@ -18,10 +19,8 @@ with open('CE6_xyzCalibration_cube.gcode') as f:
         filtered8 = filtered7.split('M109', 1)[0]
         filtered9 = filtered8.split('M107', 1)[0]
         filtered10 = filtered9.split('M82', 1)[0]
-        filtered11 = filtered10.split('G90', 1)[0]
-        filtered12 = filtered11.split('G91', 1)[0]
-        filtered13 = filtered12.split('M106', 1)[0]
-        doubleStripped = filtered13.split(';', 1)[0]
+        filtered11 = filtered10.split('M106', 1)[0]
+        doubleStripped = filtered11.split(';', 1)[0]
         lhs = doubleStripped.split('=')
         #print(doubleStripped)
         #print(lhs[0])
@@ -33,22 +32,30 @@ with open('CE6_xyzCalibration_cube.gcode') as f:
             newLine = lhs[0]
             if(len(lhs3) == 2): # if a z has been encounterd after an E command
                 # E command is multiplied with 100000 and the rest o the command is pasted after
-                newLine = newLine + "=" + str(float(lhs3[0]) * 100000) + " Z" + lhs3[1]  # /((math.pi*math.pow(1.75,2))/4)
-            elif(len(lhs2) == 2):#print("F" + lhs2[1]) # if a F has been encounterd after an E command
+                newLine = newLine + "=" + str(float(lhs3[0]) * 100000) + " Z" + lhs3[1]
+                lastNumber = float(lhs3[0])
+
+            elif(len(lhs2) == 2): #if a F has been encounterd after an E command
                 # E command is multiplied with 100000 and the rest o the command is pasted after
-                newLine = newLine + "=" + str(float(lhs2[0])*100000) + " F" + lhs2[1] #/((math.pi*math.pow(1.75,2))/4)
+                """if (lhs2[0].find("-2 ") != -1):
+                    number = str(lastNumber - float(lhs2[0]))
+                else:
+                    number = str(float(lhs2[0]))
+                    lastNumber = float(lhs2[0])""" #useless code
+
+                newLine = newLine + "=" + str(float(lhs2[0])*100000) + " F" + lhs2[1]
+
+
+
             else: # no letters after the E commands
                 newLine = newLine + "=" + str(float(lhs2[0])*100000) #/((math.pi*math.pow(1.75,2))/4)
+                lastNumber = float(lhs3[0])
         else:
             newLine = lhs[0] # no E command
 
-        if (newLine.find("M") != -1):
-            segment = segment + 1
-            print("test")
-
-
         new_file.write(newLine + "\n")
-
+        if (newLine.find("G90") != -1): #if the last line has G90 then write a M2 command
+            new_file.write("M2")
         #print(rhs)
         #print("hi")
         #if segment == 1 :
