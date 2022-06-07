@@ -1,7 +1,7 @@
 import math
 
-new_file = open("calibrationCube2.nc", "w")
-with open('CE6_xyzCalibration_cube.gcode') as f:
+new_file = open("leveling.nc", "w")
+with open('CE6_20x20.gcode') as f:
     new_line = ""
     segment = 0
 
@@ -31,19 +31,28 @@ with open('CE6_xyzCalibration_cube.gcode') as f:
             lhs3 = lhs[1].split('Z')
             newLine = lhs[0]
             if(len(lhs3) == 2): # if a z has been encounterd after an E command
-                # E command is multiplied with 100000 and the rest o the command is pasted after
-                newLine = newLine + "=" + str(float(lhs3[0]) * 100000) + " Z" + lhs3[1]
-                lastNumber = float(lhs3[0])
+
+                if (lhs3[0].find("-2 ") != -1):
+                    lastNumber = lastNumber + float(lhs3[0])
+                    newLine = newLine + "=" + str(lastNumber * 100000) + " Z" + lhs3[1]
+                    print(lastNumber)
+
+                else:
+                    lastNumber = float(lhs2[0])
+                    # E command is multiplied with 100000 and the rest o the command is pasted after
+                    newLine = newLine + "=" + str(lastNumber * 100000) + " Z" + lhs3[1]
 
             elif(len(lhs2) == 2): #if a F has been encounterd after an E command
-                # E command is multiplied with 100000 and the rest o the command is pasted after
-                """if (lhs2[0].find("-2 ") != -1):
-                    number = str(lastNumber - float(lhs2[0]))
-                else:
-                    number = str(float(lhs2[0]))
-                    lastNumber = float(lhs2[0])""" #useless code
 
-                newLine = newLine + "=" + str(float(lhs2[0])*100000) + " F" + lhs2[1]
+                if (lhs2[0].find("-2 ") != -1):
+                    lastNumber = lastNumber + float(lhs2[0])
+                    newLine = newLine + "=" + str(lastNumber * 100000) + " Z" + lhs2[1]
+                    print(lastNumber)
+
+                else:
+                    lastNumber = float(lhs2[0])
+                    # E command is multiplied with 100000 and the rest o the command is pasted after
+                    newLine = newLine + "=" + str(lastNumber * 100000) + " Z" + lhs2[1]
 
 
 
