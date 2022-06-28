@@ -1,4 +1,4 @@
-import math
+
 
 new_file = open("leveling.nc", "w")
 with open('CE6_20x20.gcode') as f:
@@ -64,3 +64,4 @@ with open('CE6_20x20.gcode') as f:
         new_file.write(newLine + "\n")
         if (newLine.find("G90") != -1): #if the  line has G90 then write a M2 command
             new_file.write("M2")
+
