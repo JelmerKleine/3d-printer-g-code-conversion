@@ -20,8 +20,9 @@ with open('CE6_20x20.gcode') as f:
         filtered8 = filtered7.split('M109', 1)[0]
         filtered9 = filtered8.split('M107', 1)[0]
         filtered10 = filtered9.split('M106', 1)[0]
-        doubleStripped = filtered10.split(';', 1)[0]
-        lhs = doubleStripped.split('=') # splt the lines between = symbol into 2
+        filtered11 = filtered10.split('M84', 1)[0]
+        filtered12 = filtered11.split(';', 1)[0]
+        lhs = filtered12.split('=') # splt the lines between = symbol into 2
 
 
         if(len(lhs) == 2): # if the line has an E command
@@ -55,8 +56,8 @@ with open('CE6_20x20.gcode') as f:
 
 
             else: # no letters after the E commands
-                newLine = newLine + "=" + str(float(lhs2[0])*100000)
-                lastNumber = float(lhs3[0])
+                newLine = newLine + "=" + str(float(lhs3[0])*100000)
+                lastNumber = float(lhs[1])
         else:
             newLine = lhs[0] # no E command
 
